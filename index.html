@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Wallet</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        text-align: center;
+        margin-top: 100px;
+      }
+      #wallet-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #3c78d8; /* Button color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #wallet-button:hover {
+        background-color: #2a5c9f; /* Darker shade for hover effect */
+      }
+      #wallet-address {
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Connect Your Wallet</h1>
+    <button id="wallet-button" onclick="connectWallet()">Connect Wallet</button>
+
+    <div id="wallet-address"></div>
+
+    <script>
+      // Initialize Moralis with API key
+      Moralis.start({
+        apiKey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImRkYWU1NDhkLTVjZDQtNGJkMi1hODFiLTMxN2I5OTFmMjgyMSIsIm9yZ0lkIjoiNDA4NzM0IiwidXNlcklkIjoiNDIwMDAzIiwidHlwZUlkIjoiMDVhNjE2YzgtZmI4My00NTkwLTlkNjEtZDJkNDkzMjI0ZTY4IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MjY2Nzc5ODYsImV4cCI6NDg4MjQzNzk4Nn0.irFs06SpSZG4NYP7zLy68fmBhsI6f16y4Y8fG11-qRw",
+      });
+
+      // Connect Wallet function
+      async function connectWallet() {
+        try {
+          const user = await Moralis.authenticate();
+          console.log("User logged in:", user);
+
+          // Show wallet address
+          const address = user.get("ethAddress");
+          document.getElementById(
+            "wallet-address"
+          ).innerHTML = `Wallet Address: ${address}`;
+        } catch (error) {
+          console.error("Error connecting wallet:", error);
+          alert("Failed to connect wallet. Please try again.");
+        }
+      }
+    </script>
+  </body>
+</html>
